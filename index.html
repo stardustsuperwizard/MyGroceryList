@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <title>Document</title> -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/pure-min.css">
+    <link rel="stylesheet" href="css/layouts/side-menu.css">
+
+    <!-- JavaScript -->
+    <script src="js/vue.js"></script>
+    <script src="js/layouts/map.js"></script>
+    <script src="js/layouts/list.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/prime.js"></script>
+    <script src="js/components/menu.js"></script>
+    <script src="js/components/links.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                currentRoute: '/list'
+            },
+            computed: {
+                ViewComponent () {
+                    return routes[this.currentRoute] || NotFound
+                    // return routes[this.currentRoute] || Home
+                }
+            },
+            render (h) { return h(this.ViewComponent) }
+        })
+
+        // window.addEventListener('popstate', () => {
+        //     app.currentRoute = window.location.pathname
+        // })
+    </script>
+</body>
+</html>
+
+
