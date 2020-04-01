@@ -1,3 +1,12 @@
+const NotFound = {
+    template: `
+    <div>
+        <c-prime>
+            <p>Page not found</p>
+        </c-prime>
+    </div>
+    `}
+
 let app = new Vue({
     el: '#app',
     data: {
