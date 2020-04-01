@@ -28,9 +28,6 @@ const componentMap = Vue.component('c-map', {
     `,
     data: function() {
         return {
-            groceryCategory: null,
-            groceryId: 1,
-            groceryItem: null,
             groceryList: [],
             grocerySet: new Set(),
             groceryCategoryList: null,
