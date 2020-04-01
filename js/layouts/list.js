@@ -22,10 +22,10 @@ const componentList = Vue.component('c-list', {
                 <h3>Items List</h3>
                 <table class="pure-table pure-table-bordered">
                     <tbody>
-                        <tr v-for="item in groceryList">
+                        <tr v-for="(item, index) in groceryList">
                             <td>{{ item.groceryItem }}</td>
                             <td>{{ item.groceryCategory }}</td>
-                            <td><button v-on:click.prevent="removeItem(item.id)" class="pure-button">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,15 +68,11 @@ const componentList = Vue.component('c-list', {
             }
             localStorage.setItem('items', JSON.stringify(this.groceryList))
         },
-        removeItem: function (itemId) {
+        removeItem: function (index) {
             if (localStorage.getItem('items') === null) {
                 this.groceryList = []
             } else {
-                this.groceryList.forEach((element, index) => {
-                    if (element.id === itemId) {
-                        this.groceryList.splice(index, 1)
-                    }
-                });
+                this.groceryList.splice(index, 1)
             }
             localStorage.setItem('items', JSON.stringify(this.groceryList))
         },
