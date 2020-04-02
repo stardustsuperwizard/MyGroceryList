@@ -14,11 +14,13 @@ const componentMap = Vue.component('c-map', {
         </div>
         <div class="pure-g" id="entireList">
             <div v-for="element in groceryCategoryList">
-                <div class="pure-u-1 pure-md-u-1-3 l-box">
-                    <h3>{{ element }}</h3>
-                    <ul v-for="item in filterGroceries(element)">
-                        <li>{{ item.groceryItem }}</li>
-                    </ul>
+                <div class="pure-u-1 pure-md-u-1-3">
+                    <div class="l-box">
+                        <h3>{{ element }}</h3>
+                        <ul>
+                            <li v-for="item in filterGroceries(element)">{{ item.groceryItem }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
