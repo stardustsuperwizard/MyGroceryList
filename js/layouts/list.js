@@ -9,6 +9,13 @@ const componentList = Vue.component('c-list', {
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
+                <h3>Options</h3>
+                <p>{{ filePath }}</p>
+                <p><button class="pure-button" v-on:click="saveList()">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button></p>
+            </div>
+        </div>
+        <div class="pure-g">
+            <div class="pure-u-1-1">
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
                     Food: <input v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
@@ -39,6 +46,7 @@ const componentList = Vue.component('c-list', {
     `,
     data: function() {
         return {
+            filePath: null,
             groceryCategory: null,
             groceryId: 1,
             groceryItem: null,
@@ -77,9 +85,36 @@ const componentList = Vue.component('c-list', {
         },
         loadItemsFromStorage: function() {
             if (localStorage.getItem('items')) {
+                this.filePath = localStorage.getItem('filePath')
                 this.groceryList = JSON.parse(localStorage.getItem('items'))
                 this.groceryListCategories = JSON.parse(localStorage.getItem('categories'))
             }
+        },
+        saveList: function(e) {
+            const ipc = require('electron').ipcRenderer
+            let data = {};
+            for (let key of Object.keys(localStorage)) {
+                // console.log(localStorage.getItem(key))
+                data[key] = JSON.parse(localStorage.getItem(key))
+            }
+            // console.log(JSON.stringify(data))
+            ipc.send('saveChannel', JSON.stringify(data))
+            ipc.on('saveChannel-reply', (event, content) => {
+                localStorage.setItem('filePath', content)
+            })
+        },
+        loadList: function(e) {
+            const ipc = require('electron').ipcRenderer
+            // ipc.send('printChannel', localStorage.items)
+            ipc.send('loadChannel', null)
+            ipc.on('loadChannel-reply', (event, content) => {
+                let data = JSON.parse(content)
+                localStorage.clear()
+                for (let key of Object.keys(data)) {
+                    localStorage.setItem(key, JSON.stringify(data[key]))
+                }
+                this.loadItemsFromStorage()
+            })
         }
     }
 });

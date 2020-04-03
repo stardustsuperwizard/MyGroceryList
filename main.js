@@ -1,6 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, ipcMain, Menu} = require('electron')
+const {app, BrowserWindow, dialog, ipcMain, Menu} = require('electron')
 const path = require('path')
+const fs = require('fs')
+
+let filePath;
+let mainWindow;
 
 const template = [
     {
@@ -15,7 +19,7 @@ const mainMenu = Menu.buildFromTemplate(template)
 
 function createWindow () {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -46,6 +50,7 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
+
 app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no ot4er windows open.
@@ -68,3 +73,36 @@ ipcMain.on('printChannel', (event, content) => {
     })
     secWindow.loadFile('print.html')
 })
+
+ipcMain.on('loadChannel', (event, content) => {
+    dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
+        filePath = result.filePaths[0]
+        // console.log(filePath)
+        let data = fs.readFileSync(filePath)
+        data = JSON.parse(data)
+        data['filePath'] = filePath
+        // console.log(JSON.parse(data))
+        event.reply('loadChannel-reply', JSON.stringify(data))
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+ipcMain.on('saveChannel', (event, content) => {
+    if (filePath === undefined) {
+        dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
+            if (result.filePath) {
+                filePath = result.filePath
+                writeToFile(event, content)
+            }
+        })
+    } else {
+        writeToFile(event, content)
+    }
+})
+
+function writeToFile(event, content) {
+    // console.log(content)
+    fs.writeFileSync(filePath, content);
+    event.reply('saveChannel-reply', filePath)
+}
