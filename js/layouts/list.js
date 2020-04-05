@@ -116,11 +116,11 @@ const componentList = Vue.component('c-list', {
             })
         },
         saveList: function(e) {
-            console.log(e)
+            // console.log(e)
             const ipc = require('electron').ipcRenderer
             let data = {};
             for (let key of Object.keys(localStorage)) {
-                console.log(localStorage.getItem(key))
+                // console.log(localStorage.getItem(key))
                 if (key != 'filePath') {
                     data[key] = JSON.parse(localStorage.getItem(key))
                 } else {
