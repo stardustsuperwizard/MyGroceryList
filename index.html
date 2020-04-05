@@ -9,21 +9,36 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/layouts/side-menu.css">
+    <style>
+        .l-box {
+            padding: 1em;
+        }
+    </style>
 
     <!-- JavaScript -->
     <script src="js/vue.js"></script>
+    <script src="js/layouts/categories.js"></script>
     <script src="js/layouts/map.js"></script>
     <script src="js/layouts/list.js"></script>
     <script src="js/routes.js"></script>
-    <script src="js/prime.js"></script>
     <script src="js/components/menu.js"></script>
     <script src="js/components/links.js"></script>
+    <script src="js/prime.js"></script>
 </head>
 <body>
     <div id="app">
     </div>
     
     <script>
+        const NotFound = {
+            template: `
+            <div>
+                <c-prime>
+                    <p>Page not found</p>
+                </c-prime>
+            </div>
+        `}
+
         let app = new Vue({
             el: '#app',
             data: {

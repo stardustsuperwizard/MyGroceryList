@@ -8,17 +8,26 @@ const componentMap = Vue.component('c-map', {
     </div>
     <div class="content">
         <div class="pure-g">
-            <div class="pure-u-1">
-                <p>If map is correct then click: <button class="pure-button" v-on:click="printList()">Print</button></p>
+            <div class="pure-u-1 pure-md-u-1-3">
+                <h3>Options</h3>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
+                <p><button class="pure-button" v-on:click="printList()">Print</button></p>
+            </div>
+        </div>
+        <div class="pure-g">
+            <div class="pure-u-1 pure-md-u-1-3">
+                <h3>Groceries</h3>
             </div>
         </div>
         <div class="pure-g" id="entireList">
             <div v-for="element in groceryCategoryList">
-                <div class="pure-u-1 pure-md-u-1-3 l-box">
-                    <h3>{{ element }}</h3>
-                    <ul v-for="item in filterGroceries(element)">
-                        <li>{{ item.groceryItem }}</li>
-                    </ul>
+                <div class="pure-u-1 pure-md-u-1-3">
+                    <div class="l-box">
+                        <h4>{{ element }}</h4>
+                        <ul>
+                            <li v-for="item in filterGroceries(element)">{{ item.groceryItem }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,9 +37,7 @@ const componentMap = Vue.component('c-map', {
     `,
     data: function() {
         return {
-            groceryCategory: null,
-            groceryId: 1,
-            groceryItem: null,
+            filePath: localStorage.getItem('filePath') || null,
             groceryList: [],
             grocerySet: new Set(),
             groceryCategoryList: null,

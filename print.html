@@ -30,25 +30,26 @@
         <div class="content">
             <div class="pure-g" id="entireList">
                 <div v-for="element in groceryCategoryList">
-                    <div class="pure-u-1 pure-md-u-1-3 l-box">
-                        <h3>{{ element }}</h3>
-                        <ul v-for="item in filterGroceries(element)">
-                            <li>{{ item.groceryItem }}</li>
-                        </ul>
+                    <div class="pure-u-1 pure-md-u-1-3">
+                        <div class="l-box">
+                            <h3>{{ element }}</h3>
+                            <!-- <table class="pure-table pure-table-horizontal"> -->
+                            <table>
+                                <tr v-for="item in filterGroceries(element)">
+                                    <td><input type="checkbox" name="" id=""> {{ item.groceryItem }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <!-- <script src="js/ui.js"></script> -->
     <script>
 const app = new Vue({
     el: '#app',
     data: {
-        groceryCategory: null,
-        groceryId: 1,
-        groceryItem: null,
         groceryList: [],
         grocerySet: new Set(),
         groceryCategoryList: null,
