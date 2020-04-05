@@ -11,7 +11,7 @@ const componentList = Vue.component('c-list', {
             <div class="pure-u-1-1">
                 <h3>Options</h3>
                 <p>Loaded File: {{ filePath || 'None' }}</p>
-                <p><button class="pure-button" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button" v-on:click="saveList('save')">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button> <button class="pure-button" v-on:click="clearList()">Clear</button> </p>
+                <p><button class="pure-button" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button" v-on:click="saveList('save')">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button> <button class="pure-button" v-on:click="clearList()">Reset</button> </p>
             </div>
         </div>
         <div class="pure-g">
@@ -95,7 +95,8 @@ const componentList = Vue.component('c-list', {
             localStorage.clear()
             this.filePath = null
             this.groceryList = []
-            this.groceryListCategories = []
+            this.groceryListCategories = ["Bakery","Cleaning","Deli","Frozen","Grocery","Home and Office","Hygiene","Meat and Seafood","Paper Products","Pets","Pharmacy","Produce"]
+            localStorage.setItem('categories', JSON.stringify(this.groceryListCategories))
             // console.log(JSON.stringify(data))
             ipc.send('clearChannel', null)
             // ipc.on('clearChannel-reply', (event, content) => {

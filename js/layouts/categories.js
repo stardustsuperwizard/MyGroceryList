@@ -9,6 +9,12 @@ const componentCategories = Vue.component('c-categories', {
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
+                <h3>Options</h3>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
+            </div>
+        </div>
+        <div class="pure-g">
+            <div class="pure-u-1-1">
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
                     Category: <input v-model="categoryName" type="text" placeholder="Produce" name="food_type" id="food_type">
@@ -37,6 +43,7 @@ const componentCategories = Vue.component('c-categories', {
         return {
             categoryName: null,
             categoryList: [],
+            filePath: localStorage.getItem('filePath') || null,
             message: "Category List",
             message2: "powered by Vue.js (and magic)"
         }

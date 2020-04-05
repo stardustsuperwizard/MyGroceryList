@@ -10,6 +10,7 @@ const componentMap = Vue.component('c-map', {
         <div class="pure-g">
             <div class="pure-u-1 pure-md-u-1-3">
                 <h3>Options</h3>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
                 <p><button class="pure-button" v-on:click="printList()">Print</button></p>
             </div>
         </div>
@@ -36,6 +37,7 @@ const componentMap = Vue.component('c-map', {
     `,
     data: function() {
         return {
+            filePath: localStorage.getItem('filePath') || null,
             groceryList: [],
             grocerySet: new Set(),
             groceryCategoryList: null,
