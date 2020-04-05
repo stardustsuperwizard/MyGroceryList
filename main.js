@@ -74,6 +74,10 @@ ipcMain.on('printChannel', (event, content) => {
     secWindow.loadFile('print.html')
 })
 
+ipcMain.on('clearChannel', (event, content) => {
+    filePath = undefined
+})
+
 ipcMain.on('loadChannel', (event, content) => {
     dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
         filePath = result.filePaths[0]
@@ -99,6 +103,15 @@ ipcMain.on('saveChannel', (event, content) => {
     } else {
         writeToFile(event, content)
     }
+})
+
+ipcMain.on('saveAsChannel', (event, content) => {
+    dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
+        if (result.filePath) {
+            filePath = result.filePath
+            writeToFile(event, content)
+        }
+    })
 })
 
 function writeToFile(event, content) {

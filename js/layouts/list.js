@@ -10,8 +10,8 @@ const componentList = Vue.component('c-list', {
         <div class="pure-g">
             <div class="pure-u-1-1">
                 <h3>Options</h3>
-                <p>{{ filePath }}</p>
-                <p><button class="pure-button" v-on:click="saveList()">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button></p>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
+                <p><button class="pure-button" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button" v-on:click="saveList('save')">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button> <button class="pure-button" v-on:click="clearList()">Clear</button> </p>
             </div>
         </div>
         <div class="pure-g">
@@ -90,18 +90,17 @@ const componentList = Vue.component('c-list', {
                 this.groceryListCategories = JSON.parse(localStorage.getItem('categories'))
             }
         },
-        saveList: function(e) {
+        clearList: function(e) {
             const ipc = require('electron').ipcRenderer
-            let data = {};
-            for (let key of Object.keys(localStorage)) {
-                // console.log(localStorage.getItem(key))
-                data[key] = JSON.parse(localStorage.getItem(key))
-            }
+            localStorage.clear()
+            this.filePath = null
+            this.groceryList = []
+            this.groceryListCategories = []
             // console.log(JSON.stringify(data))
-            ipc.send('saveChannel', JSON.stringify(data))
-            ipc.on('saveChannel-reply', (event, content) => {
-                localStorage.setItem('filePath', content)
-            })
+            ipc.send('clearChannel', null)
+            // ipc.on('clearChannel-reply', (event, content) => {
+            //     localStorage.setItem('filePath', content)
+            // })
         },
         loadList: function(e) {
             const ipc = require('electron').ipcRenderer
@@ -115,6 +114,31 @@ const componentList = Vue.component('c-list', {
                 }
                 this.loadItemsFromStorage()
             })
+        },
+        saveList: function(e) {
+            console.log(e)
+            const ipc = require('electron').ipcRenderer
+            let data = {};
+            for (let key of Object.keys(localStorage)) {
+                console.log(localStorage.getItem(key))
+                if (key != 'filePath') {
+                    data[key] = JSON.parse(localStorage.getItem(key))
+                } else {
+                    data[key] = localStorage.getItem(key)
+                }
+            }
+            // console.log(JSON.stringify(data))
+            if (e === 'save') {
+                ipc.send('saveChannel', JSON.stringify(data))
+                ipc.on('saveChannel-reply', (event, content) => {
+                    localStorage.setItem('filePath', content)
+                })
+            } else if (e === 'saveAs') {
+                ipc.send('saveAsChannel', JSON.stringify(data))
+                // ipc.on('saveChannel-reply', (event, content) => {
+                //     localStorage.setItem('filePath', content)
+                // })  
+            }
         }
     }
 });
