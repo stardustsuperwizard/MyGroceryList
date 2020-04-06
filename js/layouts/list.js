@@ -18,10 +18,8 @@ const componentList = Vue.component('c-list', {
             <div class="pure-u-1-1">
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
-                    Food: <input v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
-                    Category: <select v-model="groceryCategory">
-                        <option v-for="each in groceryListCategories">{{ each }}</option>
-                    </select>
+                    Food: <c-input-box v-bind:id="('foods')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
+                    Category: <c-input-box v-bind:id="('categories')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
                     <input v-on:click.prevent="addItem" class="pure-button" type="submit" value="Add">
                 </form>
             </div>
@@ -47,6 +45,8 @@ const componentList = Vue.component('c-list', {
     data: function() {
         return {
             filePath: null,
+            foodList: [],
+            foodListCategories: {},
             groceryCategory: null,
             groceryId: 1,
             groceryItem: null,
@@ -63,6 +63,13 @@ const componentList = Vue.component('c-list', {
         groceryList: {
             handler() {
                 localStorage.setItem('items', JSON.stringify(this.groceryList))
+            }
+        },
+        groceryItem: {
+            handler() {
+                if (this.foodListCategories.hasOwnProperty(this.groceryItem)) {
+                    this.groceryCategory = this.foodListCategories[this.groceryItem]
+                }
             }
         }
     },
@@ -88,6 +95,12 @@ const componentList = Vue.component('c-list', {
                 this.filePath = localStorage.getItem('filePath')
                 this.groceryList = JSON.parse(localStorage.getItem('items'))
                 this.groceryListCategories = JSON.parse(localStorage.getItem('categories'))
+            }
+            if (localStorage.getItem('food')) {
+                JSON.parse(localStorage.getItem('food')).forEach((element) => {
+                    this.foodList.push(element.groceryItem)
+                    this.foodListCategories[ element.groceryItem ] = element.groceryCategory
+                })
             }
         },
         clearList: function(e) {
