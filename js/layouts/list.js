@@ -11,16 +11,16 @@ const componentList = Vue.component('c-list', {
             <div class="pure-u-1-1">
                 <h3>Options</h3>
                 <p>Loaded File: {{ filePath || 'None' }}</p>
-                <p><button class="pure-button" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button" v-on:click="saveList('save')">Save</button> <button class="pure-button" v-on:click="loadList()">Load</button> <button class="pure-button" v-on:click="clearList()">Reset</button> </p>
+                <p><button class="pure-button button-success" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button button-success" v-on:click="saveList('save')">Save</button> <button class="pure-button button-success" v-on:click="loadList()">Load</button> <button class="pure-button button-error" v-on:click="clearList()">Reset</button> </p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
-                    Food: <c-input-box v-bind:id="('foods')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
-                    Category: <c-input-box v-bind:id="('categories')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
-                    <input v-on:click.prevent="addItem" class="pure-button" type="submit" value="Add">
+                    Food: <c-input-box @keypress.enter.native.prevent v-bind:id="('foods')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
+                    Category: <c-input-box @keypress.enter.native.prevent v-bind:id="('categories')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
+                    <input v-on:click.prevent="addItem" class="pure-button pure-button-primary" type="submit" value="Add">
                 </form>
             </div>
         </div>
@@ -32,7 +32,7 @@ const componentList = Vue.component('c-list', {
                         <tr v-for="(item, index) in groceryList">
                             <td>{{ item.groceryItem }}</td>
                             <td>{{ item.groceryCategory }}</td>
-                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -55,6 +55,9 @@ const componentList = Vue.component('c-list', {
             message: "Grocery List",
             message2: "powered by Vue.js (and magic)"
         }
+    },
+    computed: {
+
     },
     mounted: function() {
         this.loadItemsFromStorage()

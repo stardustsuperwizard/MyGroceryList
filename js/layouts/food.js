@@ -17,9 +17,9 @@ const componentFood = Vue.component('c-food', {
             <div class="pure-u-1-1">
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
-                    Food: <input v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
-                    Category: <c-input-box v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
-                    <input v-on:click.prevent="addItem" class="pure-button" type="submit" value="Add">
+                    Food: <input @keypress.enter.prevent v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
+                    Category: <c-input-box @keypress.enter.native.prevent v-bind:elements="groceryListCategories" v-bind:id="('foods')" v-model="groceryCategory"></c-input-box>
+                    <input v-on:click.prevent="addItem" class="pure-button pure-button-primary" type="submit" value="Add">
                 </form>
             </div>
         </div>
@@ -31,7 +31,7 @@ const componentFood = Vue.component('c-food', {
                         <tr v-for="(item, index) in groceryList">
                             <td>{{ item.groceryItem }}</td>
                             <td>{{ item.groceryCategory }}</td>
-                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>

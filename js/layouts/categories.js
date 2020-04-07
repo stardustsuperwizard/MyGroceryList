@@ -18,7 +18,7 @@ const componentCategories = Vue.component('c-categories', {
                 <h3>Add Item</h3>
                 <form class="pure-form" action="input">
                     Category: <input v-model="categoryName" type="text" placeholder="Produce" name="food_type" id="food_type">
-                    <input v-on:click.prevent="addCategory" class="pure-button" type="submit" value="Add">
+                    <input v-on:click.prevent="addCategory" class="pure-button pure-button-primary" type="submit" value="Add">
                 </form>
             </div>
         </div>
@@ -29,7 +29,7 @@ const componentCategories = Vue.component('c-categories', {
                     <tbody>
                         <tr v-for="(item, index) in categoryList">
                             <td>{{ item }}</td>
-                            <td><button v-on:click.prevent="removeItem(index, item)" class="pure-button">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index, item)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>

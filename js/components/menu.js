@@ -12,11 +12,11 @@ const componentMenu = Vue.component('c-menu', {
             </li>
 
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/list')}">
-                <c-link href="/list">List</c-link>
+                <c-link href="/list">Grocery List</c-link>
             </li>
 
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/map')}">
-                <c-link href="/map">Map</c-link>
+                <c-link href="/map">Store Map</c-link>
             </li>
 
         </ul>
