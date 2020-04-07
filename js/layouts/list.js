@@ -2,21 +2,16 @@ const componentList = Vue.component('c-list', {
     template: `
 <div>
 <c-prime>
-    <div class="header">
-        <h1>{{ message }}</h1>
-        <h2>{{ message2 }}</h2>
-    </div>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Options</h3>
-                <p>Loaded File: {{ filePath || 'None' }}</p>
+                <p>Options<br>Loaded File: {{ filePath || 'None' }}</p>
                 <p><button class="pure-button button-success" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button button-success" v-on:click="saveList('save')">Save</button> <button class="pure-button button-success" v-on:click="loadList()">Load</button> <button class="pure-button button-error" v-on:click="clearList()">Reset</button> </p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Add Item</h3>
+                <p>Add Item</p>
                 <form class="pure-form" action="input">
                     Food: <c-input-box @keypress.enter.native.prevent v-bind:id="('foods')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
                     Category: <c-input-box @keypress.enter.native.prevent v-bind:id="('categories')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
@@ -26,7 +21,7 @@ const componentList = Vue.component('c-list', {
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Items List</h3>
+                <p>Items List</p>
                 <table class="pure-table pure-table-bordered">
                     <tbody>
                         <tr v-for="(item, index) in groceryList">
@@ -52,8 +47,6 @@ const componentList = Vue.component('c-list', {
             groceryItem: null,
             groceryList: [],
             groceryListCategories: [],
-            message: "Grocery List",
-            message2: "powered by Vue.js (and magic)"
         }
     },
     computed: {

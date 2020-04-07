@@ -2,20 +2,15 @@ const componentFood = Vue.component('c-food', {
     template: `
 <div>
 <c-prime>
-    <div class="header">
-        <h1>{{ message }}</h1>
-        <h2>{{ message2 }}</h2>
-    </div>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Options</h3>
-                <p>Loaded File: {{ filePath || 'None' }}</p>
+                <p>Options<br>Loaded File: {{ filePath || 'None' }}</p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Add Item</h3>
+                <p>Add Item</p>
                 <form class="pure-form" action="input">
                     Food: <input @keypress.enter.prevent v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
                     Category: <c-input-box @keypress.enter.native.prevent v-bind:elements="groceryListCategories" v-bind:id="('foods')" v-model="groceryCategory"></c-input-box>
@@ -25,7 +20,7 @@ const componentFood = Vue.component('c-food', {
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <h3>Items List</h3>
+                <p>Items List</p>
                 <table class="pure-table pure-table-bordered">
                     <tbody>
                         <tr v-for="(item, index) in groceryList">
@@ -49,8 +44,6 @@ const componentFood = Vue.component('c-food', {
             groceryItem: null,
             groceryList: [],
             groceryListCategories: [],
-            message: "Food List",
-            message2: "powered by Vue.js (and magic)"
         }
     },
     mounted: function() {
