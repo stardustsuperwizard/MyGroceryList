@@ -15,10 +15,6 @@ const componentMenu = Vue.component('c-menu', {
                 <c-link href="/list">Grocery List</c-link>
             </li>
 
-            <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/map')}">
-                <c-link href="/map">Store Map</c-link>
-            </li>
-
         </ul>
     </div>
     `,

@@ -5,15 +5,15 @@ const componentFood = Vue.component('c-food', {
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <p>Options<br>Loaded File: {{ filePath || 'None' }}</p>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
                 <p>Add Item</p>
                 <form class="pure-form" action="input">
-                    Food: <input @keypress.enter.prevent v-model="groceryItem" type="text" placeholder="Apples" name="food_name" id="food_name">
-                    Category: <c-input-box @keypress.enter.native.prevent v-bind:elements="groceryListCategories" v-bind:id="('foods')" v-model="groceryCategory"></c-input-box>
+                    <input @keypress.enter.prevent v-model="groceryItem" type="text" placeholder="Food" name="food_name" id="food_name">
+                    <c-input-box @keypress.enter.native.prevent v-bind:elements="groceryListCategories" v-bind:id="('foods')" v-bind:placeholder="('Category')" v-model="groceryCategory"></c-input-box>
                     <input v-on:click.prevent="addItem" class="pure-button pure-button-primary" type="submit" value="Add">
                 </form>
             </div>

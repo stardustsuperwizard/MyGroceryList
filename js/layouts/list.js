@@ -5,16 +5,16 @@ const componentList = Vue.component('c-list', {
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <p>Options<br>Loaded File: {{ filePath || 'None' }}</p>
-                <p><button class="pure-button button-success" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button button-success" v-on:click="saveList('save')">Save</button> <button class="pure-button button-success" v-on:click="loadList()">Load</button> <button class="pure-button button-error" v-on:click="clearList()">Reset</button> </p>
+                <p>Loaded File: {{ filePath || 'None' }}</p>
+                <p><button class="pure-button button-success" v-on:click="saveList('saveAs')">Save as</button> <button class="pure-button button-success" v-on:click="saveList('save')">Save</button> <button class="pure-button button-success" v-on:click="loadList()">Load</button> <button class="pure-button button-secondary" v-on:click="printList()">Print</button> <button class="pure-button button-error" v-on:click="clearList()">Reset</button> </p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
                 <p>Add Item</p>
                 <form class="pure-form" action="input">
-                    Food: <c-input-box @keypress.enter.native.prevent v-bind:id="('foods')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
-                    Category: <c-input-box @keypress.enter.native.prevent v-bind:id="('categories')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
+                    <c-input-box @keypress.enter.native.prevent v-bind:id="('foods')" v-bind:placeholder="('Food')" v-bind:elements="foodList" v-model="groceryItem"></c-input-box>
+                    <c-input-box @keypress.enter.native.prevent v-bind:id="('categories')" v-bind:placeholder="('Category')" v-bind:value="groceryCategory" v-bind:elements="groceryListCategories" v-model="groceryCategory"></c-input-box>
                     <input v-on:click.prevent="addItem" class="pure-button pure-button-primary" type="submit" value="Add">
                 </form>
             </div>
@@ -124,6 +124,11 @@ const componentList = Vue.component('c-list', {
                 }
                 this.loadItemsFromStorage()
             })
+        },
+        printList: function(e) {
+            const ipc = require('electron').ipcRenderer
+            // ipc.send('printChannel', localStorage.items)
+            ipc.send('printChannel', null)
         },
         saveList: function(e) {
             // console.log(e)
