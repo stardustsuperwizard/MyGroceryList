@@ -5,11 +5,6 @@ const componentFood = Vue.component('c-food', {
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <p>Loaded File: {{ filePath || 'None' }}</p>
-            </div>
-        </div>
-        <div class="pure-g">
-            <div class="pure-u-1-1">
                 <p>Add Item</p>
                 <form class="pure-form" action="input">
                     <input @keypress.enter.prevent v-model="groceryItem" type="text" placeholder="Food" name="food_name" id="food_name">
