@@ -1,7 +1,5 @@
 const componentCategories = Vue.component('c-categories', {
     template: `
-<div>
-<c-prime>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
@@ -26,8 +24,6 @@ const componentCategories = Vue.component('c-categories', {
             </div>
         </div>
     </div>
-</c-prime>
-</div>
     `,
     data: function() {
         return {
