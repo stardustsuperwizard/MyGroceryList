@@ -2,28 +2,23 @@ const componentMap = Vue.component('c-map', {
     template: `
 <div>
 <c-prime>
-    <div class="header">
-        <h1>{{ message }}</h1>
-        <h2>{{ message2 }}</h2>
-    </div>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1 pure-md-u-1-3">
-                <h3>Options</h3>
-                <p>Loaded File: {{ filePath || 'None' }}</p>
-                <p><button class="pure-button" v-on:click="printList()">Print</button></p>
+                <p>Options<br>Loaded File: {{ filePath || 'None' }}</p>
+                <p><button class="pure-button pure-button-primary" v-on:click="printList()">Print</button></p>
             </div>
         </div>
         <div class="pure-g">
             <div class="pure-u-1 pure-md-u-1-3">
-                <h3>Groceries</h3>
+                <p>Groceries</p>
             </div>
         </div>
         <div class="pure-g" id="entireList">
             <div v-for="element in groceryCategoryList">
                 <div class="pure-u-1 pure-md-u-1-3">
                     <div class="l-box">
-                        <h4>{{ element }}</h4>
+                        <p>{{ element }}</p>
                         <ul>
                             <li v-for="item in filterGroceries(element)">{{ item.groceryItem }}</li>
                         </ul>
