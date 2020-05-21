@@ -1,7 +1,5 @@
 const componentMap = Vue.component('c-map', {
     template: `
-<div>
-<c-prime>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1 pure-md-u-1-3">
@@ -27,8 +25,6 @@ const componentMap = Vue.component('c-map', {
             </div>
         </div>
     </div>
-</c-prime>
-</div>
     `,
     data: function() {
         return {

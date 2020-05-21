@@ -1,22 +1,15 @@
-const NotFound = {
+const App = Vue.component('App', {
     template: `
-    <div>
-        <c-prime>
-            <p>Page not found</p>
-        </c-prime>
-    </div>
-    `}
+<div id="app">
+    <div id="layout">
+        <div id="menu">
+            <c-menu></c-menu>
+        </div>
 
-let app = new Vue({
-    el: '#app',
-    data: {
-        currentRoute: '/'
-    },
-    computed: {
-        ViewComponent () {
-            return routes[this.currentRoute] || NotFound
-            // return routes[this.currentRoute] || Home
-        }
-    },
-    render (h) { return h(this.ViewComponent) }
+        <div id="main">
+            <router-view></router-view>
+        </div>
+    </div>
+</div>
+    `,
 })

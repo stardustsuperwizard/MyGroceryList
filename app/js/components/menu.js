@@ -4,19 +4,20 @@ const componentMenu = Vue.component('c-menu', {
         <ul class="pure-menu-list">
 
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/options')}">
-                <c-link href="/options">Options</c-link>
+                <router-link to="/options" class="pure-menu-link">Options</router-link>
             </li>
 
+
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/categories')}">
-                <c-link href="/categories">Categories</c-link>
+                <router-link to="/categories" class="pure-menu-link">Categories</router-link>
             </li>
 
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/food')}">
-                <c-link href="/food">Favorite Foods</c-link>
+                <router-link to="/food" class="pure-menu-link">Favorite Foods</router-link>
             </li>
 
             <li v-bind:class="{'pure-menu-item':true, 'pure-menu-selected': ($root.currentRoute === '/list')}">
-                <c-link href="/list">Grocery List</c-link>
+                <router-link to="/list" class="pure-menu-link">Grocery List</router-link>
             </li>
 
         </ul>

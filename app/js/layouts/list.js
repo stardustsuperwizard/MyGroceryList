@@ -1,7 +1,5 @@
 const componentList = Vue.component('c-list', {
     template: `
-<div>
-<c-prime>
     <div class="content">
         <div class="pure-g">
             <div class="pure-u-1-1">
@@ -28,8 +26,6 @@ const componentList = Vue.component('c-list', {
             </div>
         </div>
     </div>
-</c-prime>
-</div>
     `,
     data: function() {
         return {

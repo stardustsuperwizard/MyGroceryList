@@ -57,92 +57,93 @@
     </style>
 
     <!-- JavaScript -->
+
+    <!-- VueJS -->
     <script src="js/vue.js"></script>
-    <!-- <script src="js/vue-router.js"></script> -->
+    <script src="js/vue-router.js"></script>
+
+    <!-- EventBus -->
+    <script src="js/EventBus.js"></script>
+
+    <!-- Components -->
     <script src="js/components/inputbox.js"></script>
     <script src="js/components/button-save.js"></script>
     <script src="js/components/button-saveas.js"></script>
     <script src="js/components/button-load.js"></script>
     <script src="js/components/button-print.js"></script>
     <script src="js/components/button-reset.js"></script>
+    <script src="js/components/menu.js"></script>
+
+    <!-- Layouts -->
     <script src="js/layouts/categories.js"></script>
     <script src="js/layouts/food.js"></script>
     <script src="js/layouts/list.js"></script>
     <script src="js/layouts/options.js"></script>
-    <script src="js/routes.js"></script>
-    <script src="js/components/menu.js"></script>
-    <script src="js/components/links.js"></script>
-    <script src="js/prime.js"></script>
-    <!-- <script src="js/app.js"></script> -->
-    <!-- <script src="js/router.js" type="module"></script> -->
-    <!-- <script src="./js/main.js" type="module"></script> -->
+
+    <!-- application template -->
+    <!-- <script src="js/App.js"></script> -->
 </head>
 <body>
-    <div id="app">
-    </div>
+    <div id="app"></div>
     
     <script>
-        const NotFound = {
-            template: `
-            <div>
-                <c-prime>
-                    <p>Page not found</p>
-                </c-prime>
-            </div>
-        `}
 
-        let app = new Vue({
-            el: '#app',
-            data: {
-                currentRoute: '/list'
-            },
-            computed: {
-                ViewComponent () {
-                    return routes[this.currentRoute] || NotFound
-                    // return routes[this.currentRoute] || Home
-                }
-            },
-            render (h) { return h(this.ViewComponent) }
+        // router.js
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/',
+                    name: 'componentList',
+                    component: componentList,
+                },
+                {
+                    path: '/categories',
+                    name: 'componentCategories',
+                    component: componentCategories,
+                },
+                {
+                    path: '/food',
+                    name: 'componentFood',
+                    component: componentFood,
+                },
+                {
+                    path: '/list',
+                    name: 'componentList',
+                    component: componentList,
+                },
+                {
+                    path: '/options',
+                    name: 'componentOptions',
+                    component: componentOptions,
+                },
+            ]
         })
 
-        // const router = new VueRouter({
-        //     routes: [
-        //         {
-        //             path: '/',
-        //             name: 'componentList',
-        //             component: componentList,
-        //         },
-        //         {
-        //             path: '/categories',
-        //             name: 'componentCategories',
-        //             component: componentCategories,
-        //         },
-        //         {
-        //             path: '/food',
-        //             name: 'componentFood',
-        //             component: componentFood,
-        //         },
-        //         {
-        //             path: '/list',
-        //             name: 'componentList',
-        //             component: componentList,
-        //         },
-        //         {
-        //             path: '/options',
-        //             name: 'componentOptions',
-        //             component: componentOptions,
-        //         },
-        //     ]
-        // })
+        // App.vue
+        const App = Vue.component('App', {
+            template: `
+        <div id="app">
+            <div id="layout">
+                <div id="menu">
+                    <c-menu></c-menu>
+                </div>
 
-        // Vue.config.productionTip = false
+                <div id="main">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+            `,
+        })
 
-        // Vue.use(VueRouter)
+        // main.js
+        Vue.config.productionTip = false
+        Vue.use(VueRouter)
 
-        // new Vue({
-        //     router,
-        //     render: h => h(App)
-        // }).$mount('#app')
+        new Vue({
+            router,
+            render: h => h(App)
+        }).$mount('#app')
     </script>
 </body>
 </html>
