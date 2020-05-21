@@ -72,7 +72,7 @@ ipcMain.on('printChannel', (event, content) => {
             nodeIntegration: true,
         }
     })
-    secWindow.loadFile('print.html')
+    secWindow.loadFile('./app/print.html')
 })
 
 ipcMain.on('clearChannel', (event, content) => {
