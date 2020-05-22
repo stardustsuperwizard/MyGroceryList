@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/layouts/side-menu.css">
     <style>
+        #titlebar {
+            -webkit-app-region: drag;
+            height: 24px;
+            padding: none;
+            margin: 0px;
+        }
+
         .l-box {
             padding: 1em;
         }
@@ -79,9 +86,10 @@
     <script src="js/layouts/list.js"></script>
     <script src="js/layouts/options.js"></script>
 </head>
+<!-- <body style="-webkit-app-region: drag"> -->
 <body>
+    <div id="titlebar"></div>
     <div id="app"></div>
-    
     <script>
         // router.js
         const router = new VueRouter({
