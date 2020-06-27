@@ -64,6 +64,9 @@
     </style>
 
     <!-- JavaScript -->
+    <!-- Libraries -->
+    <script src="js/EasyIDB.js"></script>
+
     <!-- VueJS -->
     <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
@@ -91,6 +94,33 @@
     <div id="titlebar"></div>
     <div id="app"></div>
     <script>
+        // indexedDB
+        tables = [
+            {
+                'name': 'GroceryList',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                }
+            },
+            {
+                'name': 'FavoriteFoods',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                }
+            },
+            {
+                'name': 'GroceryCategories',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                }
+            }
+        ]
+        const idb = new EasyIDB('mainDB', tables, 5);
+        idb.getDB();
+
         // router.js
         const router = new VueRouter({
             routes: [
