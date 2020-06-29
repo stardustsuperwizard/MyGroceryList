@@ -38,6 +38,14 @@ class EasyIDB {
                     if (!this.db.objectStoreNames.contains(element.name)) {
                         this.db.createObjectStore(element.name, element.options);
                     }
+                    if ('index' in element) {
+                        let tempObjectStore = event.currentTarget.transaction.objectStore(element.name)
+                        element.index.forEach(indexElement => {
+                            if (!tempObjectStore.indexNames.contains(indexElement.indexName)) {
+                                tempObjectStore.createIndex(indexElement.indexName, indexElement.keyPath, indexElement.objectParameters)
+                            }
+                        })
+                    }
                 });
                 // console.log(this.db);
             };
