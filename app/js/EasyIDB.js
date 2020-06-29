@@ -1,5 +1,5 @@
 /*!
- * EasyIDB v0.0.1
+ * EasyIDB v0.0.2
  * (c) 2020 Michael Miller
  * Released under the MIT License.
  */
