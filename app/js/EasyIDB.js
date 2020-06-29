@@ -1,5 +1,5 @@
 /*!
- * EasyIDB v0.0.2
+ * EasyIDB v0.0.4
  * (c) 2020 Michael Miller
  * Released under the MIT License.
  */
@@ -84,6 +84,26 @@ class EasyIDB {
             let store = trans.objectStore(table);
             store.delete(id);
         })
+    }
+
+    async readIndex(objectStoreName, indexName, keyName=null) {
+        let db = await this.getDB();
+        return new Promise(resolve => {
+            let trans = db.transaction([objectStoreName], 'readonly');
+            trans.oncomplete = () => {
+                resolve(entries);
+            };
+
+            let store = trans.objectStore(objectStoreName);
+            let entries;
+
+            let myIndex = store.index(indexName)
+            let getAllRequest = myIndex.getAll(keyName);
+
+            getAllRequest.onsuccess = event => {
+                entries = getAllRequest.result;
+            };
+        });
     }
 
     async readTable(table) {
