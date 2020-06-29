@@ -94,33 +94,6 @@
     <div id="titlebar"></div>
     <div id="app"></div>
     <script>
-        // indexedDB
-        tables = [
-            {
-                'name': 'GroceryList',
-                'options': {
-                    autoIncrement: true,
-                    keyPath: 'id'
-                }
-            },
-            {
-                'name': 'FavoriteFoods',
-                'options': {
-                    autoIncrement: true,
-                    keyPath: 'id'
-                }
-            },
-            {
-                'name': 'GroceryCategories',
-                'options': {
-                    autoIncrement: true,
-                    keyPath: 'id'
-                }
-            }
-        ]
-        const idb = new EasyIDB('mainDB', tables, 5);
-        idb.getDB();
-
         // router.js
         const router = new VueRouter({
             routes: [
@@ -170,6 +143,84 @@
         })
 
         // main.js
+        // indexedDB
+        tables = [
+            {
+                'name': 'GroceryHistory',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': [
+                    {
+                        indexName: 'groceryItem',
+                        keyPath: 'groceryItem',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'groceryCategory',
+                        keyPath: 'groceryCategory',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'pricePerUnit',
+                        keyPath: 'pricePerUnit',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'priceTotal',
+                        keyPath: 'priceTotal',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'macroName',
+                        keyPath: 'macroName',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'macroValue',
+                        keyPath: 'macroValue',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                    {
+                        indexName: 'groceryListId',
+                        keyPath: 'groceryListId',
+                        objectParameters: {
+                            unique: false
+                        }
+                    },
+                ]
+            },
+            {
+                'name': 'FavoriteFoods',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                }
+            },
+            {
+                'name': 'GroceryCategories',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                }
+            }
+        ]
+        const idb = new EasyIDB('mainDB', tables, 3);
+        idb.getDB();
+
         Vue.config.productionTip = false
         Vue.use(VueRouter)
 
