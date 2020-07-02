@@ -1,5 +1,5 @@
 /*!
- * EasyIDB v0.0.4
+ * EasyIDB v0.0.5
  * (c) 2020 Michael Miller
  * Released under the MIT License.
  */
@@ -49,6 +49,13 @@ class EasyIDB {
                 });
                 // console.log(this.db);
             };
+        });
+    }
+
+    async getTables() {
+        let db = await this.getDB()
+        return new Promise(resolve => {
+            resolve(db.objectStoreNames)
         });
     }
 
