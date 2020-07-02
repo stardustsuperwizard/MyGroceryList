@@ -29,11 +29,9 @@ const componentList = Vue.component('c-list', {
     `,
     data: function() {
         return {
-            filePath: null,
             foodList: [],
             foodListCategories: {},
             groceryCategory: null,
-            groceryId: 1,
             groceryItem: null,
             groceryList: [],
             groceryListCategories: [],
