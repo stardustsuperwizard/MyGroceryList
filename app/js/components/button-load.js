@@ -9,15 +9,20 @@ const componentButtonLoad = Vue.component('c-button-load', {
             const ipc = require('electron').ipcRenderer
             // ipc.send('printChannel', localStorage.items)
             ipc.send('loadChannel', null)
-            ipc.on('loadChannel-reply', (event, content) => {
+            ipc.on('loadChannel-reply', async function (event, content) {
                 let data = JSON.parse(content)
-                localStorage.clear()
                 for (let key of Object.keys(data)) {
-                    localStorage.setItem(key, JSON.stringify(data[key]))
+                    if (key === 'filePath') {
+                        localStorage.setItem('filePath', JSON.stringify(data.filePath))
+                    } else {
+                        data[key].forEach(element => {
+                            idb.createEntry(key, element)
+                        });
+                    }
                 }
-                let filePath = localStorage.getItem('filePath')
-                this.$emit('load', filePath)
             })
+            let filePath = localStorage.getItem('filePath')
+            this.$emit('load', filePath)
         },
     }
 }) 

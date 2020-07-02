@@ -5,9 +5,10 @@ const componentButtonPrint = Vue.component('c-button-print', {
     </button>
 `,
     methods: {
-        print: function(e) {
+        print: async function(e) {
             const ipc = require('electron').ipcRenderer
-            // ipc.send('printChannel', localStorage.items)
+            let groceryList = await idb.readTable('GroceryHistory')
+            localStorage.setItem('items', JSON.stringify(groceryList))
             ipc.send('printChannel', null)
         }
     }
