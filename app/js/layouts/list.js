@@ -19,7 +19,7 @@ const componentList = Vue.component('c-list', {
                         <tr v-for="(item, index) in groceryList">
                             <td>{{ item.groceryItem }}</td>
                             <td>{{ item.groceryCategory }}</td>
-                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button button-error button-xsmall">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index, item)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -39,18 +39,10 @@ const componentList = Vue.component('c-list', {
             groceryListCategories: [],
         }
     },
-    computed: {
-
-    },
     mounted: function() {
         this.loadItemsFromStorage()
     },
     watch: {
-        groceryList: {
-            handler() {
-                localStorage.setItem('items', JSON.stringify(this.groceryList))
-            }
-        },
         groceryItem: {
             handler() {
                 if (this.foodListCategories.hasOwnProperty(this.groceryItem)) {
@@ -61,33 +53,44 @@ const componentList = Vue.component('c-list', {
     },
     methods: {
         addItem: function () {
+            let id = Date.now()
             if (this.groceryItem !== null && this.category !== null) {
-                let tempId = this.groceryList.length + 1
-                this.groceryList.forEach((element, index) => {
-                    if (element.id === tempId) {
-                        tempId++
-                    }
-                })
-                this.groceryList.push({id: tempId, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                this.groceryList.push({id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                idb.createEntry('GroceryHistory', {id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
             } else {
                 alert("Invalid entry.")
             }
         },
-        removeItem: function (index) {
+        removeItem: function (index, item) {
             this.groceryList.splice(index, 1)
+            idb.deleteEntry('GroceryHistory', item.id)
         },
-        loadItemsFromStorage: function() {
-            if (localStorage.getItem('items')) {
-                this.filePath = localStorage.getItem('filePath')
-                this.groceryList = JSON.parse(localStorage.getItem('items'))
-                this.groceryListCategories = JSON.parse(localStorage.getItem('categories'))
-            }
-            if (localStorage.getItem('food')) {
-                JSON.parse(localStorage.getItem('food')).forEach((element) => {
-                    this.foodList.push(element.groceryItem)
-                    this.foodListCategories[ element.groceryItem ] = element.groceryCategory
+        loadItemsFromStorage: async function() {
+            idb.readTable('GroceryHistory')
+                .then((table) => {
+                    if (table.length > 0) {
+                        this.groceryList = table
+                    }
                 })
-            }
+
+            idb.readTable('FavoriteFoods')
+                .then((table) => {
+                    if (table.length > 0) {
+                        table.forEach((element) => {
+                            this.foodList.push(element.groceryItem)
+                            this.foodListCategories[ element.groceryItem ] = element.groceryCategory
+                        })
+                    }
+                })
+
+            idb.readTable('GroceryCategories')
+                .then((table) => {
+                    if (table.length > 0) {
+                        table.forEach((element) => {
+                            this.groceryListCategories.push(element.name)
+                        })
+                    }
+                })
         }
     }
 });

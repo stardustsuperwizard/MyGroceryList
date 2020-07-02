@@ -16,7 +16,7 @@ const componentCategories = Vue.component('c-categories', {
                 <table class="pure-table pure-table-bordered">
                     <tbody>
                         <tr v-for="(item, index) in categoryList">
-                            <td>{{ item }}</td>
+                            <td>{{ item.name }}</td>
                             <td><button v-on:click.prevent="removeItem(index, item)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
@@ -29,38 +29,36 @@ const componentCategories = Vue.component('c-categories', {
         return {
             categoryName: null,
             categoryList: [],
-            filePath: localStorage.getItem('filePath') || null,
         }
     },
     mounted: function() {
         this.loadItemsFromStorage()
-        this.categoryList.sort()
+        // this.categoryList.sort()
     },
     methods: {
         addCategory: function () {
+            let id = Date.now()
             if (this.categoryName !== null) {
-                this.categoryList.push(this.categoryName)
-                this.categoryList.sort()
-                // this.$emit('addCategory', this.categoryName)
+                this.categoryList.push({name: this.categoryName, id: id})
+                idb.createEntry('GroceryCategories', {name: this.categoryName, id: id})
             } else {
                 alert("Invalid entry.")
             }
-            localStorage.setItem('categories', JSON.stringify(this.categoryList))
         },
-        removeItem: function (index, categoryName) {
+        removeItem: function (index, item) {
             if (localStorage.getItem('categories') === null) {
                 this.categoryList = []
             } else {
                 this.categoryList.splice(index, 1)
-                // this.$emit('delCategory', categoryName)
             }
-            localStorage.setItem('categories', JSON.stringify(this.categoryList))
+            idb.deleteEntry('GroceryCategories', item.id)
         },
-        loadItemsFromStorage: function() {
-            if (localStorage.getItem('categories') === null) {
+        loadItemsFromStorage: async function() {
+            let table = await idb.readTable('GroceryCategories')
+            if (table.length === 0) {
                 this.categoryList = []
             } else {
-                this.categoryList = JSON.parse(localStorage.getItem('categories'))
+                this.categoryList = table
             }
         }
     }
