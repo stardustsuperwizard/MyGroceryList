@@ -146,6 +146,13 @@
         // indexedDB
         tables = [
             {
+                'name': 'Settings',
+                'options': {
+                    autoIncrement: false,
+                    keyPath: 'setting'
+                }
+            },
+            {
                 'name': 'GroceryHistory',
                 'options': {
                     autoIncrement: true,
@@ -218,7 +225,7 @@
                 }
             }
         ]
-        const idb = new EasyIDB('mainDB', tables, 3);
+        const idb = new EasyIDB('mainDB', tables, 4);
         idb.getDB();
 
         Vue.config.productionTip = false
