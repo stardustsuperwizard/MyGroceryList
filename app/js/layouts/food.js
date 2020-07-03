@@ -41,9 +41,13 @@ const componentFood = Vue.component('c-food', {
     methods: {
         addItem: function () {
             let id = Date.now()
-            if (this.groceryItem !== null && this.category !== null) {
-                this.groceryList.push({id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
-                idb.createEntry('FavoriteFoods', {id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+            if (this.groceryItem !== null && this.groceryCategory !== null) {
+                if (this.groceryListCategories.includes(this.groceryCategory)) {
+                    this.groceryList.push({id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                    idb.createEntry('FavoriteFoods', {id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                } else {
+                    alert("Category not found. Please add it.")
+                }
             } else {
                 alert("Invalid entry.")
             }
