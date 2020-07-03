@@ -75,10 +75,6 @@ ipcMain.on('printChannel', (event, content) => {
     secWindow.loadFile('./app/print.html')
 })
 
-ipcMain.on('clearChannel', (event, content) => {
-    filePath = undefined
-})
-
 ipcMain.on('loadChannel', (event, content) => {
     dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
         let data = {
