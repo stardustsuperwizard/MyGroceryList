@@ -33,7 +33,6 @@ const componentCategories = Vue.component('c-categories', {
     },
     mounted: function() {
         this.loadItemsFromStorage();
-        // this.categoryList.sort()
     },
     methods: {
         addCategory: async function () {
