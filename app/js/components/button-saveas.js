@@ -17,7 +17,7 @@ const componentButtonSaveAs = Vue.component('c-button-saveas', {
             ipc.send('saveAsChannel', JSON.stringify(data));
             ipc.on('saveChannel-reply', (event, content) => {
                 localStorage.setItem('filePath', content)
-            })
+            });
             this.$emit('filepath', content)
         }
     }
