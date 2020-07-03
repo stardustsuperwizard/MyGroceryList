@@ -82,17 +82,19 @@ ipcMain.on('clearChannel', (event, content) => {
 
 ipcMain.on('loadChannel', (event, content) => {
     dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
-        filePath = result.filePaths[0]
+        filePath = result.filePaths[0];
         // console.log(filePath)
-        let data = fs.readFileSync(filePath)
-        data = JSON.parse(data)
-        data['filePath'] = filePath
+        let data = {
+            'filePath': filePath
+        };
+        data['data'] = JSON.parse(fs.readFileSync(filePath));
+        data['filePath'] = filePath;
         // console.log(JSON.parse(data))
-        event.reply('loadChannel-reply', JSON.stringify(data))
+        event.reply('loadChannel-reply', JSON.stringify(data));
     }).catch(err => {
-        console.log(err)
-    })
-})
+        console.log(err);
+    });
+});
 
 ipcMain.on('saveChannel', (event, content) => {
     if (filePath === undefined) {
@@ -119,6 +121,5 @@ ipcMain.on('saveAsChannel', (event, content) => {
 function writeToFile(event, content) {
     // console.log(content)
     fs.writeFileSync(filePath, content);
-    console.log(typeof(filePath))
     event.reply('saveChannel-reply', filePath)
 }
