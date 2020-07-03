@@ -7,7 +7,6 @@ const componentButtonReset = Vue.component('c-button-reset', {
 `,
     methods: {
         clear: function(e) {
-            const ipc = require('electron').ipcRenderer
             localStorage.clear()
             this.$emit('reset', 'None')
         }
