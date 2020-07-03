@@ -8,10 +8,11 @@ const componentButtonSave = Vue.component('c-button-save', {
         save: async function(e) {
             const ipc = require('electron').ipcRenderer;
 
-            let data = {};
+            let data = {'data': {}};
+            data.filePath = localStorage.getItem('filePath') || null;
             let tables = await idb.getTables();
             for (let [key, value] of Object.entries(tables)) {
-                data[value] = await idb.readTable(value);
+                data.data[value] = await idb.readTable(value);
             };
 
             ipc.send('saveChannel', JSON.stringify(data));

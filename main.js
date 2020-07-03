@@ -97,29 +97,29 @@ ipcMain.on('loadChannel', (event, content) => {
 });
 
 ipcMain.on('saveChannel', (event, content) => {
-    if (filePath === undefined) {
+    content = JSON.parse(content);
+    if (content.filePath === null) {
         dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
             if (result.filePath) {
-                filePath = result.filePath
-                writeToFile(event, content)
-            }
-        })
+                writeToFile(event, content);
+            };
+        });
     } else {
-        writeToFile(event, content)
+        writeToFile(event, content);
     }
-})
+});
 
 ipcMain.on('saveAsChannel', (event, content) => {
+    content = JSON.parse(content);
     dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
         if (result.filePath) {
-            filePath = result.filePath
-            writeToFile(event, content)
-        }
-    })
-})
+            content.filePath = result.filePath;
+            writeToFile(event, content);
+        };
+    });
+});
 
 function writeToFile(event, content) {
-    // console.log(content)
-    fs.writeFileSync(filePath, content);
-    event.reply('saveChannel-reply', filePath)
+    fs.writeFileSync(content.filePath, JSON.stringify(content.data));
+    event.reply('saveChannel-reply', content.filePath);
 }
