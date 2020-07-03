@@ -53,10 +53,22 @@ const componentFood = Vue.component('c-food', {
             idb.deleteEntry('FavoriteFoods', item.id)
         },
         loadItemsFromStorage: async function() {
-            let table = await idb.readTable('FavoriteFoods')
-            if (table.length > 0) {
-                this.groceryList = table
-            }
+            idb.readTable('FavoriteFoods')
+                .then((table) => {
+                    if (table.length > 0) {
+                        this.groceryList = table
+                    }
+                })
+
+            idb.readTable('GroceryCategories')
+                .then((table) => {
+                    if (table.length > 0) {
+                        table.forEach(element => {
+                            this.groceryListCategories.push(element.name)
+                        })
+                    }
+                    this.groceryListCategories.sort()
+                })
         },
     }
 });
