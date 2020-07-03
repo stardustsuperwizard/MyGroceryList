@@ -32,34 +32,35 @@ const componentCategories = Vue.component('c-categories', {
         }
     },
     mounted: function() {
-        this.loadItemsFromStorage()
+        this.loadItemsFromStorage();
         // this.categoryList.sort()
     },
     methods: {
-        addCategory: function () {
-            let id = Date.now()
+        addCategory: async function () {
+            let id = Date.now();
             if (this.categoryName !== null) {
-                this.categoryList.push({name: this.categoryName, id: id})
-                idb.createEntry('GroceryCategories', {name: this.categoryName, id: id})
+                let result = await idb.readIndex('GroceryCategories', 'categoryName', this.categoryName);
+                if (result.length === 0) {
+                    this.categoryList.push({name: this.categoryName, id: id});
+                    idb.createEntry('GroceryCategories', {name: this.categoryName, id: id});
+                } else {
+                    alert('Category already exists. Please select a new name.');
+                };
             } else {
-                alert("Invalid entry.")
-            }
+                alert('Invalid entry.');
+            };
         },
         removeItem: function (index, item) {
-            if (localStorage.getItem('categories') === null) {
-                this.categoryList = []
-            } else {
-                this.categoryList.splice(index, 1)
-            }
-            idb.deleteEntry('GroceryCategories', item.id)
+            this.categoryList.splice(index, 1);
+            idb.deleteEntry('GroceryCategories', item.id);
         },
         loadItemsFromStorage: async function() {
-            let table = await idb.readTable('GroceryCategories')
+            let table = await idb.readTable('GroceryCategories');
             if (table.length === 0) {
-                this.categoryList = []
+                this.categoryList = [];
             } else {
-                this.categoryList = table
-            }
+                this.categoryList = table;
+            };
         }
     }
 });

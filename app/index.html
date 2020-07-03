@@ -222,10 +222,19 @@
                 'options': {
                     autoIncrement: true,
                     keyPath: 'id'
-                }
+                },
+                'index': [
+                    {
+                        indexName: 'categoryName',
+                        keyPath: 'name',
+                        objectParameters: {
+                            unique: true
+                        }
+                    },
+                ]
             }
         ]
-        const idb = new EasyIDB('mainDB', tables, 1);
+        const idb = new EasyIDB('mainDB', tables, 2);
         idb.getDB();
 
         Vue.config.productionTip = false
