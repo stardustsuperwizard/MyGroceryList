@@ -13,7 +13,7 @@ const componentButtonReset = Vue.component('c-button-reset', {
             // localStorage.setItem('categories', JSON.stringify(groceryListCategories))
             // localStorage.setItem('filePath', filePath)
             // console.log(JSON.stringify(data))
-            ipc.send('clearChannel', null)
+            // ipc.send('clearChannel', null)
             // ipc.on('clearChannel-reply', (event, content) => {
             //     localStorage.setItem('filePath', content)
             // })

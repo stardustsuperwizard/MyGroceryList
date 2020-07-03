@@ -3,7 +3,6 @@ const {app, BrowserWindow, dialog, ipcMain, Menu} = require('electron')
 const path = require('path')
 const fs = require('fs')
 
-let filePath;
 let mainWindow;
 
 const template = [
@@ -82,14 +81,10 @@ ipcMain.on('clearChannel', (event, content) => {
 
 ipcMain.on('loadChannel', (event, content) => {
     dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
-        filePath = result.filePaths[0];
-        // console.log(filePath)
         let data = {
-            'filePath': filePath
+            'filePath': result.filePaths[0]
         };
-        data['data'] = JSON.parse(fs.readFileSync(filePath));
-        data['filePath'] = filePath;
-        // console.log(JSON.parse(data))
+        data['data'] = JSON.parse(fs.readFileSync(result.filePaths[0]));
         event.reply('loadChannel-reply', JSON.stringify(data));
     }).catch(err => {
         console.log(err);
