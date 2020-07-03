@@ -20,7 +20,7 @@ const componentOptions = Vue.component('c-options', {
     },
     methods: {
         changeFilePath: function(e) {
-            this.filePath = e
-        }
+            this.filePath = e;
+        },
     }
 });
