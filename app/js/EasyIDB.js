@@ -55,7 +55,7 @@ class EasyIDB {
     async getTables() {
         let db = await this.getDB()
         return new Promise(resolve => {
-            resolve(db.objectStoreNames)
+            resolve(db.objectStoreNames);
         });
     }
 
@@ -73,10 +73,10 @@ class EasyIDB {
     }
 
     async createTable(table, variables) {
-        let db = await this.getDB()
+        let db = await this.getDB();
         return new Promise(resolve => {
-            db.createObjectStore(table, variables)
-            resolve("done")
+            db.createObjectStore(table, variables);
+            resolve("done");
         });
     }
 
@@ -85,7 +85,7 @@ class EasyIDB {
         return new Promise (resolve => {
             let trans = db.transaction([table], 'readwrite');
             trans.oncomplete = () => {
-                resolve()
+                resolve();
             };
 
             let store = trans.objectStore(table);
@@ -104,7 +104,7 @@ class EasyIDB {
             let store = trans.objectStore(objectStoreName);
             let entries;
 
-            let myIndex = store.index(indexName)
+            let myIndex = store.index(indexName);
             let getAllRequest = myIndex.getAll(keyName);
 
             getAllRequest.onsuccess = event => {
@@ -127,9 +127,26 @@ class EasyIDB {
             store.openCursor().onsuccess = event => {
                 let cursor = event.target.result;
                 if (cursor) {
-                    entries.push(cursor.value)
+                    entries.push(cursor.value);
                     cursor.continue();
                 }
+            };
+        });
+    }
+
+    async readTableEntry(table, id) {
+        let db = await this.getDB();
+        return new Promise(resolve => {
+            let trans = db.transaction([table], 'readonly');
+            trans.oncomplete = () => {
+                resolve(entry);
+            };
+            
+            let store = trans.objectStore(table);
+            let entry;
+
+            store.get(id).onsuccess = event => {
+                entry = event.target.result;
             };
         });
     }
