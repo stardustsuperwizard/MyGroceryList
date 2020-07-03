@@ -13,7 +13,7 @@ const componentButtonLoad = Vue.component('c-button-load', {
                 let data = JSON.parse(content)
                 for (let key of Object.keys(data)) {
                     if (key === 'filePath') {
-                        localStorage.setItem('filePath', JSON.stringify(data.filePath))
+                        localStorage.setItem('filePath', data.filePath)
                     } else {
                         data[key].forEach(element => {
                             idb.createEntry(key, element)

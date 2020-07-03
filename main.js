@@ -119,5 +119,6 @@ ipcMain.on('saveAsChannel', (event, content) => {
 function writeToFile(event, content) {
     // console.log(content)
     fs.writeFileSync(filePath, content);
+    console.log(typeof(filePath))
     event.reply('saveChannel-reply', filePath)
 }
