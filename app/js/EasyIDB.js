@@ -59,6 +59,19 @@ class EasyIDB {
         });
     }
 
+    async clearTable(table) {
+        let db = await this.getDB();
+        return new Promise(resolve => {
+            let trans = db.transaction([table], 'readwrite');
+            trans.oncomplete = () => {
+                resolve();
+            };
+
+            let store = trans.objectStore(table);
+            store.clear();
+        });
+    }
+
     async createEntry(table, entry) {
         let db = await this.getDB()
         return new Promise(resolve => {
