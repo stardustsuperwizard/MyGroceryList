@@ -3,7 +3,6 @@ const {app, BrowserWindow, dialog, ipcMain, Menu} = require('electron')
 const path = require('path')
 const fs = require('fs')
 
-let filePath;
 let mainWindow;
 
 const template = [
@@ -76,48 +75,42 @@ ipcMain.on('printChannel', (event, content) => {
     secWindow.loadFile('./app/print.html')
 })
 
-ipcMain.on('clearChannel', (event, content) => {
-    filePath = undefined
-})
-
 ipcMain.on('loadChannel', (event, content) => {
     dialog.showOpenDialog(mainWindow, {properties: ['openFile']}).then(result => {
-        filePath = result.filePaths[0]
-        // console.log(filePath)
-        let data = fs.readFileSync(filePath)
-        data = JSON.parse(data)
-        data['filePath'] = filePath
-        // console.log(JSON.parse(data))
-        event.reply('loadChannel-reply', JSON.stringify(data))
+        let data = {
+            'filePath': result.filePaths[0]
+        };
+        data['data'] = JSON.parse(fs.readFileSync(result.filePaths[0]));
+        event.reply('loadChannel-reply', JSON.stringify(data));
     }).catch(err => {
-        console.log(err)
-    })
-})
+        console.log(err);
+    });
+});
 
 ipcMain.on('saveChannel', (event, content) => {
-    if (filePath === undefined) {
+    content = JSON.parse(content);
+    if (content.filePath === null) {
         dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
             if (result.filePath) {
-                filePath = result.filePath
-                writeToFile(event, content)
-            }
-        })
+                writeToFile(event, content);
+            };
+        });
     } else {
-        writeToFile(event, content)
+        writeToFile(event, content);
     }
-})
+});
 
 ipcMain.on('saveAsChannel', (event, content) => {
+    content = JSON.parse(content);
     dialog.showSaveDialog(mainWindow, {defaultPath: 'groceryList.json'}).then(result => {
         if (result.filePath) {
-            filePath = result.filePath
-            writeToFile(event, content)
-        }
-    })
-})
+            content.filePath = result.filePath;
+            writeToFile(event, content);
+        };
+    });
+});
 
 function writeToFile(event, content) {
-    // console.log(content)
-    fs.writeFileSync(filePath, content);
-    event.reply('saveChannel-reply', filePath)
+    fs.writeFileSync(content.filePath, JSON.stringify(content.data));
+    event.reply('saveChannel-reply', content.filePath);
 }

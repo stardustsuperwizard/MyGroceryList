@@ -8,7 +8,7 @@ const componentOptions = Vue.component('c-options', {
         </div>
         <div class="pure-g">
             <div class="pure-u-1-1">
-                <p><c-button-saveas></c-button-saveas> <c-button-save></c-button-save> <c-button-load v-on:load="changeFilePath"></c-button-load> <c-button-print></c-button-print> <c-button-reset v-on:reset="changeFilePath"></c-button-reset></p>
+                <p><c-button-saveas v-on:filepath="changeFilePath"></c-button-saveas> <c-button-save v-on:filepath="changeFilePath"></c-button-save> <c-button-load v-on:filepath="changeFilePath"></c-button-load> <c-button-print></c-button-print> <c-button-reset v-on:reset="changeFilePath"></c-button-reset></p>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@ const componentOptions = Vue.component('c-options', {
     },
     methods: {
         changeFilePath: function(e) {
-            this.filePath = e
-        }
+            this.filePath = e;
+        },
     }
 });

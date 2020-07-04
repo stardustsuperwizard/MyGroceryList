@@ -19,7 +19,7 @@ const componentFood = Vue.component('c-food', {
                         <tr v-for="(item, index) in groceryList">
                             <td>{{ item.groceryItem }}</td>
                             <td>{{ item.groceryCategory }}</td>
-                            <td><button v-on:click.prevent="removeItem(index)" class="pure-button button-error button-xsmall">Remove</button></td>
+                            <td><button v-on:click.prevent="removeItem(index, item)" class="pure-button button-error button-xsmall">Remove</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -29,9 +29,7 @@ const componentFood = Vue.component('c-food', {
     `,
     data: function() {
         return {
-            filePath: null,
             groceryCategory: null,
-            groceryId: 1,
             groceryItem: null,
             groceryList: [],
             groceryListCategories: [],
@@ -40,36 +38,41 @@ const componentFood = Vue.component('c-food', {
     mounted: function() {
         this.loadItemsFromStorage()
     },
-    watch: {
-        groceryList: {
-            handler() {
-                localStorage.setItem('food', JSON.stringify(this.groceryList))
-            }
-        }
-    },
     methods: {
         addItem: function () {
-            if (this.groceryItem !== null && this.category !== null) {
-                let tempId = this.groceryList.length + 1
-                this.groceryList.forEach((element, index) => {
-                    if (element.id === tempId) {
-                        tempId++
-                    }
-                })
-                this.groceryList.push({id: tempId, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+            let id = Date.now()
+            if (this.groceryItem !== null && this.groceryCategory !== null) {
+                if (this.groceryListCategories.includes(this.groceryCategory)) {
+                    this.groceryList.push({id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                    idb.createEntry('FavoriteFoods', {id: id, groceryItem: this.groceryItem, groceryCategory: this.groceryCategory})
+                } else {
+                    alert("Category not found. Please add it.")
+                }
             } else {
                 alert("Invalid entry.")
             }
         },
-        removeItem: function (index) {
+        removeItem: function (index, item) {
             this.groceryList.splice(index, 1)
+            idb.deleteEntry('FavoriteFoods', item.id)
         },
-        loadItemsFromStorage: function() {
-            if (localStorage.getItem('food')) {
-                this.filePath = localStorage.getItem('filePath')
-                this.groceryList = JSON.parse(localStorage.getItem('food'))
-                this.groceryListCategories = JSON.parse(localStorage.getItem('categories'))
-            }
+        loadItemsFromStorage: async function() {
+            idb.readTable('FavoriteFoods')
+                .then((table) => {
+                    if (table.length > 0) {
+                        this.groceryList = table
+                    }
+                })
+
+            idb.readTable('GroceryCategories')
+                .then((table) => {
+                    if (table.length > 0) {
+                        table.forEach(element => {
+                            this.groceryListCategories.push(element.name)
+                        })
+                    }
+                    this.groceryListCategories.sort()
+                })
         },
     }
 });
