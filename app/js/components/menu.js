@@ -1,7 +1,7 @@
 const componentMenu = Vue.component('c-menu', {
     template: `
     <div>
-        <div id="titlebar"></div>
+        <!--<div id="titlebar"></div>-->
         <div class="pure-menu">
             <ul class="pure-menu-list">
 
